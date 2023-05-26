@@ -1,24 +1,25 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type User struct {
-	ID           uint
-	Name         string
-	Email        string
-	Age          uint8
-	Birthday     string
-	MemberNumber sql.NullString
-	ActivatedAt  sql.NullTime
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+type Employee struct {
+	ID            uint
+	Name          string
+	Address       string
+	Age           uint
+	Birthdate     string
+	Level         string
+	Id_department uint
+}
+
+type Department struct {
+	ID   uint
+	Name string
 }
 
 func main()  {
@@ -29,11 +30,8 @@ func main()  {
 		panic(err)
 	}
 
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Employee{}, &Department{})
 
 	fmt.Println("Migration Success")
-
-
-	fmt.Println("Insert Success")
 
 }

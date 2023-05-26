@@ -1,24 +1,25 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type User struct {
-	ID           uint
-	Name         string
-	Email        string
-	Age          uint8
-	Birthday     string
-	MemberNumber sql.NullString
-	ActivatedAt  sql.NullTime
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+type Employee struct {
+	ID            uint
+	Name          string
+	Address       string
+	Age           uint
+	Birthdate     string
+	Level         string
+	Id_department uint
+}
+
+type Department struct {
+	ID   uint
+	Name string
 }
 
 func main()  {
@@ -29,12 +30,60 @@ func main()  {
 		panic(err)
 	}
 
-	db.Create(&User{Name: "Aditira", Email : "test@mail.com", Age : 23, Birthday: "1998-02-21",MemberNumber: sql.NullString{String: "123", Valid: true}, ActivatedAt: sql.NullTime{Time: time.Now(), Valid: true}})
+	var departments = []Department{
+		{Name: "TI Department"},
+		{Name: "Economy Department"},
+		{Name: "Science Department"},
+		{Name: "Political Department"},
+		{Name: "Social Department"},
+	}
+	db.Create(&departments)
 
-	if err := db.Error; err != nil {
-		fmt.Println(err)
+	var employees = []Employee{
+		{
+			Name:          "Rinnai",
+			Address:       "Ciledug",
+			Age:           25,
+			Birthdate:     "2001-11-21",
+			Level:         "Secretary",
+			Id_department: 1,
+		},
+		{
+			Name:          "Rajin",
+			Address:       "Cikokol",
+			Age:           12,
+			Birthdate:     "1995-11-21",
+			Level:         "CEO",
+			Id_department: 2,
+		},
+		{
+			Name:          "Nirna",
+			Address:       "Ciamis",
+			Age:           23,
+			Birthdate:     "1995-11-21",
+			Level:         "CTO",
+			Id_department: 3,
+		},
+		{
+			Name:          "Raniah",
+			Address:       "Bandung",
+			Age:           29,
+			Birthdate:     "1995-11-21",
+			Level:         "HRD",
+			Id_department: 4,
+		},
+		{
+			Name:          "Rumiati",
+			Address:       "Surabaya",
+			Age:           18,
+			Birthdate:     "1995-11-21",
+			Level:         "Secretary",
+			Id_department: 5,
+		},
 	}
 
-	fmt.Println("Insert Success")
+	db.Create(&employees)
+
+	fmt.Println("Insertion Success")
 
 }
